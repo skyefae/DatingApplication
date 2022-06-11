@@ -1,0 +1,22 @@
+{
+  "name": "datingapplication",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skyefae/DatingApplication.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skyefae/DatingApplication/issues"
+  },
+  "homepage": "https://github.com/skyefae/DatingApplication#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
