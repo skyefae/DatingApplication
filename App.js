@@ -75,6 +75,7 @@ export default function App() {
   );
 }
 
+//CSS CODE
 const styles = StyleSheet.create({
   //colors: electric pink (#FD297B), fiery rose (#FF5864), pastel red (#FF655B)
   container: {
