@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Button, Image, TouchableHighlight} from 'react-native';
+import React, {Component} from 'react';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Button, Image, TouchableHighlight, TextInput} from 'react-native';
 import { NavigationContainer, StackRouter } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -9,6 +10,12 @@ export default function App() {
   const handlePress = () => console.log("Pressed");
 
   const Stack = createNativeStackNavigator();
+
+  const verification = 1234;
+
+  const checkCode = () => {if (this.state.VerificationNumber == verification) {
+    console.log('Passed');
+  }}
 
   //SCREENS
   const LoginScreen = ({navigation}) => {
@@ -23,7 +30,7 @@ export default function App() {
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.logInButton} onPress={()=> navigation.navigate('SignUpScreen')}>
+      <TouchableOpacity style={styles.logInButton} onPress={()=> navigation.navigate('MobileNumberScreen')}>
         <Text style={styles.buttonText}>Create An Account </Text>
       </TouchableOpacity>
 
@@ -55,20 +62,67 @@ export default function App() {
     )
   }
 
-  const SignUpScreen = ({ navigation, route }) => {
+  const MobileNumberScreen = ({ navigation, route }) => {
+    const [number, onChangeNumber] = React.useState(null);
     return (
       <SafeAreaView style={styles.container}>
-        <Text>HELLO</Text>
+        <Text style={styles.title}>My Mobile</Text>
+        <View styles={styles.container}></View>
+        <Text style={styles.text}>Please enter a valid mobile number. We will send you a 4-digit code to verify your account</Text>
+        <TextInput
+        style={styles.input}
+        onChangeText={onChangeNumber}
+        value={number}
+        placeholder="Mobile Number"
+        keyboardType="numeric"
+      />
+      <TouchableOpacity style={styles.logInButton} onPress={()=> navigation.navigate('VerificationScreen')}>
+      <Text style={styles.buttonText}>Continue</Text>
+      </TouchableOpacity>
       </SafeAreaView>
     )
   }
 
-  //APP RETURN
+  const VerificationScreen = ({navigation, route}) => {
+    const [VerificationNumber, setVerificationNumber] = React.useState('');
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Enter Verification Code</Text>
+        <TextInput
+        style={styles.input}
+        placeholder="Mobile Number"
+        keyboardType="numeric"
+        value={VerificationNumber}
+        onChangeText = {value => setVerificationNumber(value)}
+        />
+        <TouchableOpacity style={styles.logInButton} onPress={() => 
+        {if (VerificationNumber == verification) {
+          console.log('Passed');
+          navigation.navigate('UserCreationScreen');
+        }}}>
+        <Text style={styles.buttonText}>Confirm</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    )
+  }
+
+  const UserCreationScreen = ({navigation, route}) => {
+    return (    
+    <SafeAreaView style={styles.container}>
+      <Text>NEXT</Text>
+    </SafeAreaView>
+    )
+
+  }
+
+  //APP 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name='LoginScreen' component={LoginScreen} options={{ title: 'Welcome' }}></Stack.Screen>
-        <Stack.Screen name='SignUpScreen' component={SignUpScreen} options={{ title: 'Create an Account' }}></Stack.Screen>
+        <Stack.Screen name='MobileNumberScreen' component={MobileNumberScreen} options={{ title: 'Enter Mobile Number' }}></Stack.Screen>
+        <Stack.Screen name='VerificationScreen' component={VerificationScreen} options={{ title: 'Verify Mobile Number' }}></Stack.Screen>
+        <Stack.Screen name='UserCreationScreen' component={UserCreationScreen} options={{ title: 'Create User' }}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
 
@@ -121,6 +175,29 @@ const styles = StyleSheet.create({
     height: 55,
     borderRadius: 10,
     margin: 20,
+  },
+
+  input: {
+    height: 40,
+    width: 350,
+    margin: 40,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+  },
+
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginRight: 215,
+    marginBottom: 20,
+  },
+
+  text: {
+    margin: 20,
+    marginLeft: 40,
+    marginRight: 40,
+    fontSize: 15,
   }
 
 
